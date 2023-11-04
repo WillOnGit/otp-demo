@@ -1,27 +1,30 @@
 #include <stdio.h>
+#include <string.h>
 
-char *message = "hello!";
-// 68 65 6c 6c 6f 21
-char *key = "fj31l2";
-// 66 6a 33 31 6c 32
-
-void cipher(){
-	char new[7];
-
-	for(int i = 0; i<6; i++){
-		new[i] = message[i] ^ key[i];
+int cipher(char* message, char* key){
+	if (strlen(message) > strlen(key)){
+		printf("key must be as long as message\n");
+		return 1;
 	}
-	new[6] = '\0';
-	// 0e 0f 5f 5d 03 13
 
-	printf("%s",new);
-}
-
-int main(){
-	printf("message is: %s\n", message);
-	printf("key is: %s\n", key);
-
-	cipher();
+	for(int i = 0; i<strlen(message); i++){
+		putchar(message[i] ^ key[i]);
+	}
 
 	return 0;
+}
+
+int main(int argc, char **argv){
+	char *message;
+	char *key;
+
+	if (argc < 3) {
+		printf("not enough args\n");
+		return 1;
+	}
+
+	message = *(argv + 1);
+	key = *(argv + 2);
+
+	return cipher(message, key);
 }
