@@ -1,8 +1,13 @@
 #include <stdio.h>
 
 int cipher(FILE *message, FILE *key){
-	char m, k;
-	while ((m = getc(message)) != EOF && (k = getc(key)) != EOF){
+	int m, k;
+	while ((m = getc(message)) != EOF){
+		k = getc(key);
+		if (k == EOF){
+			fprintf(stderr, "ERROR: key shorter than message.\nOutput has been truncated!\n");
+			return 1;
+		}
 		putchar(m ^ k);
 	}
 
