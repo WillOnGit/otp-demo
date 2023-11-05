@@ -11,7 +11,7 @@ int cipher(FILE *message, FILE *key){
 
 int main(int argc, char **argv){
 	if (argc < 3) {
-		printf("not enough args\n");
+		fprintf(stderr, "not enough args\n");
 		return 1;
 	}
 
@@ -22,12 +22,12 @@ int main(int argc, char **argv){
 	FILE *keyfile = fopen(keyfilename, "r");
 
 	if (messagefile == 0){
-		printf("could not open message file %s\n", messagefilename);
+		fprintf(stderr, "could not open message file %s\n", messagefilename);
 		return 2;
 	}
 
 	if (keyfile == 0){
-		printf("could not open key file %s\n", keyfilename);
+		fprintf(stderr, "could not open key file %s\n", keyfilename);
 		return 2;
 	}
 
