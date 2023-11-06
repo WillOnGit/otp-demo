@@ -1,3 +1,7 @@
 # otp-secret
-The aim is to write a one-time pad (OTP) implementation in C which can be plausibly deniable as something else.
-The OTP part will be done first and then the "cover" functionality second.
+For now this is just a basic one-time pad (OTP) implementation in C, described below.
+Up next is to disguise this in a larger program where it can be plausibly denied to be a deliberate one-time pad.
+
+## One-time pad
+Once built (`make`), simply run `./otp messagefile keyfile`.
+Output is to stdout.
