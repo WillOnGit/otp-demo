@@ -1,8 +1,10 @@
 #include <stdio.h>
 
-int cipher(FILE *message, FILE *key)
+int cipher(FILE *message, FILE *key, FILE *newkey)
 {
 	int m, k;
+
+	// main output
 	while ((m = getc(message)) != EOF) {
 		k = getc(key);
 		if (k == EOF) {
@@ -10,6 +12,13 @@ int cipher(FILE *message, FILE *key)
 			return 1;
 		}
 		putchar(m ^ k);
+	}
+
+	// write rest of key to new keyfile if supplied
+	if (newkey){
+		while ((k = getc(key)) != EOF) {
+			putc(k, newkey);
+		}
 	}
 
 	return 0;
@@ -27,16 +36,28 @@ int main(int argc, char **argv)
 
 	FILE *messagefile = fopen(messagefilename, "r");
 	FILE *keyfile = fopen(keyfilename, "r");
+	FILE *newkeyfile;
 
-	if (messagefile == 0) {
+	if (!messagefile) {
 		fprintf(stderr, "could not open message file %s\n", messagefilename);
 		return 2;
 	}
 
-	if (keyfile == 0) {
+	if (!keyfile) {
 		fprintf(stderr, "could not open key file %s\n", keyfilename);
 		return 2;
 	}
 
-	return cipher(messagefile, keyfile);
+	if (argc > 3) {
+		char *newkeyfilename = *(argv + 3);
+		newkeyfile = fopen(newkeyfilename, "wb");
+		if (!newkeyfile) {
+			fprintf(stderr, "could not open new key file %s\n", newkeyfilename);
+			return 2;
+		}
+	} else {
+		newkeyfile = 0;
+	}
+
+	return cipher(messagefile, keyfile, newkeyfile);
 }
