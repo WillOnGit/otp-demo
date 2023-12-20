@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #include "cipher.h"
 
 int cipher(FILE *message, FILE *key, FILE *newkey)
