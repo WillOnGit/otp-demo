@@ -1,0 +1,1 @@
+int loadcfg(FILE *f);

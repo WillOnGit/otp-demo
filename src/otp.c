@@ -1,6 +1,8 @@
 #include <stdio.h>
+#include <ctype.h>// toupper()
 
 #include "cipher.h"
+#include "loadcfg.h"
 
 int main(int argc, char **argv)
 {
@@ -14,7 +16,7 @@ int main(int argc, char **argv)
 
 	FILE *messagefile = fopen(messagefilename, "r");
 	FILE *keyfile = fopen(keyfilename, "r");
-	FILE *newkeyfile;
+	//FILE *newkeyfile;
 
 	if (!messagefile) {
 		fprintf(stderr, "could not open message file %s\n", messagefilename);
@@ -28,14 +30,24 @@ int main(int argc, char **argv)
 
 	if (argc > 3) {
 		char *newkeyfilename = *(argv + 3);
-		newkeyfile = fopen(newkeyfilename, "wb");
+		FILE *newkeyfile = fopen(newkeyfilename, "wb");
 		if (!newkeyfile) {
 			fprintf(stderr, "could not open new key file %s\n", newkeyfilename);
 			return 2;
 		}
+		
+		return cipher(messagefile, keyfile, newkeyfile);
 	} else {
-		newkeyfile = 0;
+		int c, makeupper;
+		makeupper = loadcfg(keyfile);
+		while ((c = getc(messagefile)) != EOF) {
+			if (makeupper) {
+				putchar(toupper(c));
+			} else {
+				putchar(c);
+			}
+		}
 	}
 
-	return cipher(messagefile, keyfile, newkeyfile);
+	return 0;
 }

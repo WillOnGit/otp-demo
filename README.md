@@ -4,8 +4,6 @@ This will be disguised in a larger program where it can be plausibly denied to b
 The README in `docs` describes the planned "cover" functionality.
 
 ## One-time pad
-Once built (`make`), simply run `./otp messagefile keyfile`.
-Output is to stdout.
-
-An optional third argument can be supplied to write the unused portion of the key to.
-So if `messagefile` is 100 bytes long and `keyfile` is 500 bytes then `./otp messagefile keyfile newkeyfile` will write the last 400 bytes of `keyfile` to `newkeyfile`.
+Once built (`make`), simply run `otp messagefile keyfile newkeyfile`.
+Output is to stdout and the unused portion of the key is written to `newkeyfile`.
+So if `messagefile` is 100 bytes long and `keyfile` is 500 bytes then `otp messagefile keyfile newkeyfile` will write the last 400 bytes of `keyfile` to `newkeyfile`.
